@@ -23,7 +23,6 @@ I created my GitHub profile to share my personal projects with you.
 
 ## My most recent work (French version)
 
-[I ingest gas prices data from French gas stations daily](https://forested-whimsey-69a.notion.site/88db92028c8f44038c75d455038fbdc9)
-![alt text](https://github.com/jphnh/assets/blob/main/project_sp95.jpeg "SP95 prices in french gas stations")
+[![I am a Data Analyst.](https://github.com/jphnh/assets/blob/main/project_sp95.jpeg?raw=true)](https://forested-whimsey-69a.notion.site/Projet-Data-Analyse-prix-du-SP95-en-France-88db92028c8f44038c75d455038fbdc9)
 
 [<img src='https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/github.svg' alt='github' height='40'>](https://github.com/jphnh)  [<img src='https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/linkedin.svg' alt='linkedin' height='40'>](https://www.linkedin.com/in/jeanpaulhuynh/)  
