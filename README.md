@@ -10,9 +10,9 @@ I created my GitHub profile to share my personal projects with you.
 
 ## Skills and Experience
 
-- 📦 *Data Warehouse* : Google BigQuery, SQL, Data Modeling, and Automation (dbt)
-- 📈 *Dashboarding and Spreadsheet* : Looker Studio, PowerBI, Excel
-- 🛠️ *Other Skills* : Postman, Airbyte, Airflow
+- 📦 Data Warehouse : Google BigQuery, SQL, Data Modeling, and Automation (dbt)
+- 📈 Dashboarding and Spreadsheet : Looker Studio, PowerBI, Excel
+- 🛠️ Other Skills : Postman, Airbyte, Airflow
 
 ## Additional information
 
