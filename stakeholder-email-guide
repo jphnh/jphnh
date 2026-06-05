@@ -1,0 +1,145 @@
+# Writing Stakeholder Emails — Method
+
+> An email is an **instrument to produce a decision**, not a report of what you know.
+> Proportions matter: ~80% thinking & verification, ~20% writing.
+
+## Steps (in order)
+
+### 1. Start from the reply you want
+Before writing anything, finish this sentence: *"After reading this, they will reply with ___."*
+If you can't, you're not ready to write. The desired reply is the design constraint for everything else.
+
+### 2. Make the ask answerable, not just explicit
+Open-ended asks ("tell me your priorities") get postponed forever. Bounded asks ("your top 3, and the decision each supports") get answered.
+When asking people to prioritize, give them the cost: tag each option as *structural / needs instrumentation / modeling work on existing data*. A menu without prices makes everyone order the lobster.
+
+### 3. Find the one causal frame that explains everything
+A list of facts that looks arbitrary reads as excuses. Hunt for the single root cause behind the pattern (e.g. *"source A knows the users but not the money; source B knows the money but not the users"*).
+One organizing principle up front beats ten scattered justifications — it transfers understanding, not just conclusions. If you can't find one, your own understanding is probably incomplete.
+
+### 4. Run the collision check
+For every number or claim: *what will the reader compare it against, and will the comparison break?*
+A pre-empted contradiction costs one ⚠️ line; a discovered one costs your credibility on every other line.
+**A ✅ with a hidden caveat is more expensive than a ⚠️.** Trust is the actual deliverable; the content is just the vehicle.
+
+### 5. Verify against the record, not your recall
+Memory compresses: headlines survive, caveats and root causes die — and the caveats are where the trust lives.
+Before writing, open the source of truth (facts page, past tickets, previous analyses) and diff the audience's *past asks* against your outline. Anything unverified gets flagged or checked — never silently promoted to ✅.
+
+### 6. Structure last, for the skimmer
+Only now open the compose window. Pyramid principle:
+- Purpose in the first two sentences
+- Body grouped by the **reader's** categories, not your data sources
+- The ask isolated at the end, where a skimmer lands
+- Assume the key reader spends 40 seconds; bold the load-bearing phrases
+- Write it forwardable: it will be read by people you didn't send it to, with zero context
+
+## Supporting system
+
+Maintain a **per-domain facts page** (findings, root causes, caveats, date established, open verifications) and update it when closing each analysis. Then "how I start" becomes mechanical:
+
+1. Write the one-line decision the email must produce
+2. Open the facts page — that's your draft material, not your memory
+3. Diff their past asks against your outline
+4. Only then start writing
+
+Don't trust your memory — build systems instead.
+
+## Pre-send checklist
+
+- [ ] Can I state the reply I expect, in one sentence?
+- [ ] Is the ask bounded and easy to answer?
+- [ ] Does one causal frame make the limitations self-explanatory?
+- [ ] Does every number survive comparison with the figures the reader already knows?
+- [ ] Did I check the record (past asks, established findings) rather than my recall?
+- [ ] Does every ✅ deserve it — no hidden caveats?
+- [ ] Would a 40-second skimmer still catch the purpose and the ask?
+- [ ] Does it survive being forwarded without context?
+
+---
+
+## Worked example — before / after
+
+Real case (anonymized): a metrics-availability email from a data analyst to a game team, whose goal was to get the team to **prioritize which unavailable metrics to unblock**. Sources: Firebase events (player-level behavior, blind to subscription auto-renewals) and store extracts (exact revenue, but anonymous and aggregated).
+
+### Before
+
+> Hello all,
+>
+> I hope you are all well. After multiple data requests I have received over the last months, I wanted to take this opportunity to review all the metrics you either asked or would be interested in monitoring in the near future. The objective is to have an overview of what is currently available and trusted, and avoid wondering whether one metric is there or not. I will divide the main metrics into 3 categories (activity, retention, monetisation): they are not exhaustive and can be iterated, provided you tell me the metrics you'd like to have.
+>
+> Activity:
+> DAU/MAU: ✅ (Firebase events)
+> New players: ✅ (Firebase events)
+>
+> Engagement:
+> Retention ✅ (based on connections from Firebase)
+> Churn ✅ (based on connections from Firebase)
+>
+> Monetisation:
+> ARPPU: UNAVAILABLE → need to know our buyers, we are missing subscribers info
+> Total revenue by store: aggregated on month granularity ✅ / user-level: UNAVAILABLE
+> Daily revenue (in-app purchases, Firebase events): ✅
+> Purchases by product type (subscriptions, tokens...): ✅
+> Daily player status (sub/non-sub): UNAVAILABLE
+
+**What's wrong, mapped to the steps:**
+
+| Flaw | Severity | Violated step |
+|---|---|---|
+| The ask ("tell me what you'd like") is buried in the intro, open-ended, never repeated | Critical | 1, 2 |
+| Firebase daily revenue marked ✅ with no caveat — it undercounts store totals ~13x (renewals invisible). First comparison destroys trust in the whole email | Critical | 4 |
+| ARPPU root cause stated wrong ("missing subscribers info") — actual cause: store transactions carry no player identity at all. Wrong cause implies wrong fix | Critical | 5 |
+| Metrics the team had *already requested* (renewal rate, LTV, tenure) absent from a "complete overview" | Critical | 5 |
+| No causal frame — the ✅/❌ pattern looks arbitrary, reads as excuses | Structure | 3 |
+| Categories inconsistent (intro says "retention", header says "Engagement"); connection-churn will be read as subscription-churn | Structure | 3, 6 |
+| Granularity undersold ("monthly ✅" when daily exists) | Minor | 5 |
+
+### After
+
+> **Subject: [App] — what we can measure today, and what we'd need to unlock the rest**
+>
+> Hello all,
+>
+> After the data requests of the past months, I'd like to give you a consolidated view of which metrics are available and trusted today, which come with caveats, and which we can't produce yet — and why. The goal: no one has to wonder whether a number exists, and we prioritize together what to unblock next.
+>
+> One sentence of context that explains most of the gaps: our two sources are **Firebase events** (player-level behavior, but blind to subscription auto-renewals) and **store extracts** (financially exact, but anonymous and aggregated). Almost every limitation below comes from that split.
+>
+> **Activity — available ✅**
+> - DAU / MAU (Firebase connections, full history)
+> - Stickiness (DAU/MAU)
+> - New players
+> - Play-frequency buckets (active days per month)
+> - Games played, by game type
+> - Token spending & monthly spenders — ⚠️ one platform currently looks under-tracked; investigating
+>
+> **Retention — available ✅**
+> - D1 / D7 / D30 retention by daily or monthly cohort
+> - Churn
+> - ⚠️ Both are based on *connection activity* (does the player come back), not subscriptions. Subscription churn is a separate metric — see below.
+>
+> **Monetisation — available ✅**
+> - Total revenue by store, daily or monthly — exact amounts
+> - Purchases by product type (subscriptions, token packs, …)
+> - Free-to-paid conversion (initial purchases)
+> - ⚠️ Firebase also reports daily IAP revenue, but it significantly undercounts the stores because automatic subscription renewals never reach Firebase. Rule of thumb: **stores = how much; Firebase = who and when, for first purchases.**
+>
+> **Not available today — and what it would take**
+> - **ARPPU / number of paying players** — store transactions carry no player identity. Partially recoverable from behavioral events for initial purchases; full fix needs backend data.
+> - **User-level revenue / platform revenue split** — same root cause; structural store limitation.
+> - **Renewal & churn rate by plan, subscriber tenure, LTV** — no backend subscription table; would need a backend export (exact) or duration inference (approximate).
+> - **Daily paid vs free player status** — same dependency.
+> - **Ad revenue per free user** — pending ad-impression instrumentation in an upcoming release.
+>
+> **What I need from you:** among the unavailable metrics, your **top 3 priorities**, and for each, the decision it would support (pricing, feature investment, plan design, …). That lets us weigh the unblocking effort against the decision value, and sequence the work realistically.
+>
+> Happy to walk through any of this live.
+
+**What changed, in one line per step:**
+
+1. The email now exists to produce one reply: a ranked top 3 with decisions attached.
+2. The ask is bounded, isolated at the end, and every ❌ carries its cost (structural / backend / instrumentation).
+3. One causal frame up front ("Firebase knows players, stores know money") makes every limitation self-explanatory.
+4. The two collision traps (Firebase-vs-store revenue, connection-vs-subscription churn) are defused with explicit ⚠️ rules of thumb.
+5. The unavailable list was rebuilt from the record of past requests, not from memory — and the ARPPU root cause corrected.
+6. Skimmable: headers carry the message, bold carries the rules, the ask is where a scroller lands.
